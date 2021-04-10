@@ -59,7 +59,27 @@ exports.getBlogById = (req, res, next) => {
 }
 
 exports.updateBlog = (req, res, next) => {
+    const blogId = req.params.blogId;
 
+    const title = req.body.title;
+    const body = req.body.body;
+    Blog.findById(blogId)
+    .then(blog => {
+        blog.title = title;
+        blog.body = body;
+        return blog.save()
+    })
+    .then(result => {
+        res.status(200).json({
+            message:'Update success',
+            data: result
+        })
+    })
+    .catch(err => {
+        res.status(400).json({
+            error: err
+        })
+    })
 }
 
 exports.deleteBlog = (req, res, next) => {
