@@ -83,5 +83,18 @@ exports.updateBlog = (req, res, next) => {
 }
 
 exports.deleteBlog = (req, res, next) => {
+    const blogId = req.params.blogId;
 
+    Blog.findByIdAndRemove(blogId)
+        .then(result => {
+            res.status(200).json({
+                message:'Delete success',
+                data: result
+            })
+        })
+        .catch(err => {
+            res.status(400).json({
+                error: err
+            })
+        })
 }
